@@ -1,6 +1,8 @@
 (function() {
   window.Users = window.Users || {Components: {}};
 
+  window.Users.Components = window.Users.Components || {};
+
   let UserFormList = window.Users.Components.UserFormList;
 
   window.Users.Components.App = class App extends React.Component {
@@ -17,59 +19,18 @@
         };
     }
 
-
-    onEmailChange( userIdx, email ) {
-
-
-      this.setState(({users}, props) => {
-
-        let state = {
-          users: [
-            ...users.slice( 0, userIdx ),
-            Object.assign(
-              {},
-              users[userIdx],
-              {email}
-            ),
-            ...users.slice( userIdx + 1 )
-          ]
-        };
-
-        return state;
-
-      });
-
+    onUsersChange(users) {
+      this.setState({users});
     }
 
-    onPassChange( userIdx, pass ) {
-      this.setState(({users}, props) => {
+    render() {
 
-        let state = {
-          users: [
-            ...users.slice( 0, userIdx ),
-            Object.assign(
-              {},
-              users[userIdx],
-              {pass}
-            ),
-            ...users.slice( userIdx + 1 )
-          ]
-        };
-
-        return state;
-      });
-
+      return <UserFormList
+        users={this.state.users}
+        onUsersChange={(users) => this.onUsersChange(users)}
+      />;
     }
 
-      render() {
-
-        return <UserFormList
-          users={this.state.users}
-          onPassChange={({userIdx, pass}) => this.onPassChange(userIdx, pass)}
-          onEmailChange={({userIdx, email}) => this.onEmailChange(userIdx, email)}
-        />;
-      }
-
-    }
+  }
 
 })();

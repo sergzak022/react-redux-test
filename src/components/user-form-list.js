@@ -3,21 +3,30 @@
   window.Users = window.Users || {Components: {}};
   window.Users.Components.UserFormList = UserFormList;
 
-  let UserForm = Users.Components.UserForm
+  let {bindActionCreators} = Redux;
 
-  function UserFormList( {users, onEmailChange, onPassChange} ) {
+  let {updateEmail, updatePass} = window.Users.Actions.User;
 
-    console.log('UserFormList render with users', users);
+  let store = window.Users.store;
 
+  let acions = bindActionCreators({updateEmail, updatePass}, store.dispatch);
+
+  let UserForm = Users.Components.UserForm;
+
+  function UserFormList( {users, onUsersChange} ) {
 
     return <ul>
-      {users.map(({email, pass}, idx) => <UserForm
-        key={idx}
-        email={email}
-        pass={pass}
-        onEmailChange={(email) => onEmailChange({userIdx: idx, email})}
-        onPassChange={(pass) => onPassChange({userIdx: idx, pass})}
-      />)}
+      {users.map( ({email, pass}, userIdx) => {
+
+        return <UserForm
+          key={userIdx}
+          email={email}
+          pass={pass}
+          onEmailChange={(email) => acions.updateEmail(email, userIdx)}
+          onPassChange={(pass) => acions.updatePass(pass, userIdx)}
+        />;
+      })}
     </ul>;
   };
+
 })();

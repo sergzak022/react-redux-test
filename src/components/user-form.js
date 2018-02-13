@@ -1,13 +1,12 @@
 
 (function() {
   window.Users = window.Users || {Components: {}};
+
+  window.Users.Components = window.Users.Components || {};
+
   window.Users.Components.UserForm = UserForm;
 
   function UserForm( {email, pass, onEmailChange, onPassChange} ) {
-
-    console.log('UserForm render with email', email);
-    console.log('UserForm render with pass', pass);
-
     return <form>
       <label>
         <span>Email</span>
